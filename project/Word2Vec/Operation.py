@@ -30,6 +30,7 @@ class W2VOperation:
         self.stop_words = stopwords.words('english')
         print("w2v模型导入完毕")
 
+    # 算两个文本的相似度
     def text_semantic_sim(self, text1, text2):
         vec_des = self.text2vec([text1])
         vec_term = self.text2vec([text2])
@@ -40,6 +41,7 @@ class W2VOperation:
         else:
             return 0.5 + ((vec_des.dot(vec_term) / (norm_des * norm_term)) / 2)
 
+    # 将一个文本转换成word2vec向量表示
     def text2vec(self, topic_words):
         topic_text = " ".join(topic_words).lower()
 
@@ -52,10 +54,26 @@ class W2VOperation:
 
         return vec_des
 
+    def get_word2vec_score_for_sentences(self, sentence, target_sentence_list: list):
+        score_list = []
+        for item in target_sentence_list:
+            score_list.append(self.text_semantic_sim(sentence, item))
+        return score_list
+
 
 if __name__ == "__main__":
     word2vec_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
     operation = W2VOperation(word2vec_path)
 
-    print(operation.text_semantic_sim("named entity recognition", "nature language processing"))
-    print(operation.text_semantic_sim("named entity recognition", "computer vision"))
+    # print(operation.text_semantic_sim("named entity recognition", "nature language processing"))
+    # print(operation.text_semantic_sim("named entity recognition", "computer vision"))
+
+    tmp_score_list = operation.get_word2vec_score_for_sentences('how to always round up to the next integer', [
+        'How to round up the result of integer division?',
+        'how to make Math.random round to a number',
+        'How to get ImageView with round edge and round vertices in android?',
+        'How do I convert the value of a TextView to integer',
+        'how to round of 3 numbers to 1?',
+        'How to round decimal numbers in Android'
+    ])
+    print(tmp_score_list)

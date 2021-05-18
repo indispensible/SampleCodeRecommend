@@ -33,10 +33,10 @@ class Model:
         dataset = []
         tmp_sentence_list = []
         stop_words = stopwords.words('english')
-        for sentence, postId in self.sentence_list:
+        for sentence, vote in self.sentence_list:
             sentence_2_word_list = [item for item in sentence.split(" ") if item not in stop_words]
             if sentence_2_word_list:
-                tmp_sentence_list.append([sentence, postId])
+                tmp_sentence_list.append([sentence, vote])
                 dataset.append(sentence_2_word_list)
         dct = Dictionary(dataset)
         corpus = [dct.doc2bow(line) for line in dataset]
@@ -47,7 +47,7 @@ class Model:
         tfidf_model.save(str(trained_tfIdf_model_path))
         pickle.dump(corpus, open(str(PathUtil.output_corpus_tfIdf_model_dir() / "tfidf.corpus"), "wb+"))
         pickle.dump(tmp_sentence_list,
-                    open(str(PathUtil.output_document_tfIdf_model_dir() / "tfidf.sentence_list"), "wb+"))
+                    open(str(PathUtil.output_document_tfIdf_model_dir() / "tfidf.sentence_vote_list"), "wb+"))
         index = similarities.SparseMatrixSimilarity(tfidf_model[corpus], num_features=len(dct.items()))
         index.save(str(PathUtil.output_index_model_dir() / 'sparse_matrix_similarity.index'))
         print("TFIDF训练完毕")
@@ -75,7 +75,7 @@ class Model:
         multi_document_list = self.sample_code_doc.get_document_list()
         for item in multi_document_list:
             if isinstance(item.field_doc["title_ori"], str) and item.field_doc["url"].split("/")[-1]:
-                self.sentence_list.append([item.field_doc["title_ori"], item.field_doc["url"].split("/")[-1]])
+                self.sentence_list.append([item.field_doc["title_ori"], item.field_doc["vote"]])
 
 
 if __name__ == "__main__":
