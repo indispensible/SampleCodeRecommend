@@ -11,6 +11,8 @@
 @Description:
 """
 import json
+import os
+from pathlib import Path
 from time import time
 
 import numpy as np
@@ -60,8 +62,30 @@ class W2VOperation:
             score_list.append(self.text_semantic_sim(sentence, item))
         return score_list
 
+    """
+        wikipedia2vec的pkl文件不能直接用KeyedVectors.load_word2vec_format导入，所以需要先下载txt版本，然后转换成二进制bin文件，再用KeyedVectors.load_word2vec_format导入
+        即需要下载的是 https://wikipedia2vec.github.io/wikipedia2vec/pretrained/ 网站下的English类别下的enwiki_20180420 (window=5, iteration=10, negative=15)的300d(txt)文件，并将txt文件
+        保存在data/wiki_word2vec/300/目录下
+    """
+    @staticmethod
+    def txt_2_bin(txt_path, bin_path):
+        if os.path.isfile(Path(txt_path)):
+            if not os.path.isfile(Path(bin_path)):
+                print("txt转换成bin文件")
+                wv = KeyedVectors.load_word2vec_format(txt_path, binary=False)
+                print("txt读取完毕")
+                wv.save_word2vec_format(bin_path, binary=True)
+                print("txt文件转换成bin文件完毕")
+        else:
+            raise Exception("txt文件没有下载，详情请看project/Word2Vec/Operation.py下的第66-68行的注释")
+
 
 if __name__ == "__main__":
+
+    # 得到word2vec模型的二进制文件
+    # W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
+    #                        str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
+
     word2vec_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
     operation = W2VOperation(word2vec_path)
 

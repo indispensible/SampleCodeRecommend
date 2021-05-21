@@ -19,6 +19,7 @@ from gensim.models.keyedvectors import Word2VecKeyedVectors
 from nltk.corpus import stopwords
 from sekg.ir.doc.wrapper import MultiFieldDocumentCollection
 
+from project.Word2Vec.Operation import W2VOperation
 from util.path_util import PathUtil
 
 
@@ -83,6 +84,8 @@ if __name__ == "__main__":
     model = Model(sample_code_doc_path)
     model.get_sentence_list()
     model.train_TFIDF_model("v1")
+    W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
+                           str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
     pre_w2v_path = str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin")
     new_w2v_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
     model.trained_word2vec_model(pre_w2v_path, new_w2v_path)
