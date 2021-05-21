@@ -71,7 +71,7 @@ class W2VOperation:
     def txt_2_bin(txt_path, bin_path):
         if os.path.isfile(Path(txt_path)):
             if not os.path.isfile(Path(bin_path)):
-                print("txt转换成bin文件")
+                print("txt开始转换成bin文件")
                 wv = KeyedVectors.load_word2vec_format(txt_path, binary=False)
                 print("txt读取完毕")
                 wv.save_word2vec_format(bin_path, binary=True)
