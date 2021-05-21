@@ -34,7 +34,7 @@ class TFIDFOperation:
         self.stop_words = stopwords.words('english')
 
     def get_sims(self, sentence):
-        sentence_word_list = [item for item in sentence.split(" ") if item not in self.stop_words]
+        sentence_word_list = [item for item in sentence.split(" ") if item.lower() not in self.stop_words]
         bow = self.dct.doc2bow(sentence_word_list)
         vector = self.tfidf_model[bow]
         sims = self.similarities_index[vector]

@@ -34,7 +34,7 @@ class Model:
         tmp_sentence_list = []
         stop_words = stopwords.words('english')
         for sentence, vote in self.sentence_list:
-            sentence_2_word_list = [item for item in sentence.split(" ") if item not in stop_words]
+            sentence_2_word_list = [item for item in sentence.split(" ") if item.lower() not in stop_words]
             if sentence_2_word_list:
                 tmp_sentence_list.append([sentence, vote])
                 dataset.append(sentence_2_word_list)
@@ -56,7 +56,7 @@ class Model:
     def trained_word2vec_model(self, pre_trained_w2v_path=None, tuned_word_embedding_save_path=None):
         stop_words = stopwords.words('english')
         self.get_sentence_list()
-        corpus = [[item for item in sentence.split(" ") if item not in stop_words] for sentence, post_id in
+        corpus = [[item for item in sentence.split(" ") if item.lower() not in stop_words] for sentence, post_id in
                   self.sentence_list]
         print("开始训练word2vec")
         pre_trained_word2vec_model = Word2VecKeyedVectors.load_word2vec_format(pre_trained_w2v_path, binary=True)

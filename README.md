@@ -9,6 +9,19 @@ project_root                           整个代码项目的根目录
 │   definitions.py                     定义一个ROOT_DIR的常量作为项目根目录。
 │                      
 └───data                               存放训练数据集、测试数据集、样例代码数据集以及模型
+│   │
+│   └───doc                            样例代码数据集
+│   │
+│   └───index_model                    根据TFIDF模型训练出的稀疏矩阵相似度模型
+│   │
+│   └───RankSVM_model                  下面存放RankSVM模型和样例代码数据集整理后的数据文件
+│   │
+│   └───tfidf_model                    训练后tfidf模型会自动放在这里
+│   │
+│   └───wiki_word2vec                  Word2Vec模型目录
+|       |
+|       └───300                        https://wikipedia2vec.github.io/wikipedia2vec/pretrained/上下的Word2Vec模型放在这里，增量训练的新Word2Vec模型也会自动保存在这里
+│
 │
 └───project                            样例代码推荐核心代码目录
 │   │                   

@@ -43,11 +43,11 @@ class W2VOperation:
 
     # 将一个文本转换成word2vec向量表示
     def text2vec(self, topic_words):
-        topic_text = " ".join(topic_words).lower()
+        topic_text = " ".join(topic_words)
 
         if len(topic_text) == 0:
             return np.zeros([300])
-        words = [w for w in topic_text.split() if w and w not in self.stop_words]
+        words = [w for w in topic_text.split() if w and w.lower() not in self.stop_words]
         if len(words) == 0:
             return np.zeros([300])
         vec_des = sum([self.embedding.get(w, np.zeros([300])) for w in words]) / len(words)

@@ -14,6 +14,7 @@ import json
 import os
 import pickle
 from random import Random
+from time import time
 
 from sekg.ir.doc.wrapper import MultiFieldDocumentCollection
 from tqdm import tqdm
@@ -97,7 +98,7 @@ class SVMOperation:
     def load(self, model_path=str(PathUtil.output_RankSVM_model_dir() / "rank_svm.model")):
         self.rank_svm_model = pickle.load(open(model_path, "rb"))
 
-    def predict(self, sentence, target_sentence="", n=30):
+    def predict(self, sentence, target_sentence="", n=30, print_code=False):
         predict_dict = {
             "question": sentence,
             "target": target_sentence,
@@ -118,12 +119,16 @@ class SVMOperation:
         print("Question: " + sentence)
         if target_sentence != "":
             print("Target: " + target_sentence)
-        print("-" * 40)
+        print("-" * 50)
         print("前十名结果:")
         for i in range(n - 1, n - 11, -1):
             predict_dict["rank_10_result"].append(sort_dict[i][0][0])
             predict_dict["code_10_result"].append(self.sentence_2_code[sort_dict[i][0][0]])
-            print(sort_dict[i][0][0])
+            print("No." + str(n - i) + " Related Task: " + sort_dict[i][0][0])
+            if print_code:
+                print("Code:")
+                print(self.sentence_2_code[sort_dict[i][0][0]])
+                print("-" * 40)
         print("=" * 60)
         return predict_dict
 
@@ -213,24 +218,28 @@ if __name__ == "__main__":
 
     # 215到233行一起运行和236行分开运行（分开注释）
     # # 训练RankSVM模型
-    # op.train_rank_svm()
-    # # 测试用例
-    # op.load(str(PathUtil.output_RankSVM_model_dir() / "rank_svm.model"))
-    # res_list = [
-    #     op.predict("how to always round up to the next integer", "How to round up the result of integer division?", 30),
-    #     op.predict("How to play a sound (alert) in a java application?", "How can I play sound in Java?", 30),
-    #     op.predict("Debug exceptions in AWT queue thread", "How can I catch AWT thread exceptions in Java?", 30),
-    #     op.predict("JUnit 4 Expected Exception type",
-    #                "How do you assert that a certain exception is thrown in JUnit 4 tests?", 30),
-    #     op.predict("Measure execution time for a Java method", "How do I time a method's execution in Java?", 30),
-    #     op.predict("Value from last inserted row in DB", "How to get a value from the last inserted row?", 30),
-    #     op.predict("Jaxb ignore the namespace on unmarshalling",
-    #                "How to ignore namespace during unmarshalling XML document?", 30),
-    #     op.predict("How do you split a list into evenly sized chunks?",
-    #                "How do I divide an ordered list of integers into evenly sized sublists?", 30)
-    # ]
-    # with open(str(PathUtil.output_RankSVM_model_dir() / "result_example.json"), "w") as f:
-    #     json.dump(res_list, f)
+    op.train_rank_svm(model_path=str(PathUtil.output_RankSVM_model_dir() / "rank_svm.new.final.model"))
+    # 测试用例
+    op.load(str(PathUtil.output_RankSVM_model_dir() / "rank_svm.new.final.model"))
+    op.load()
+    start_time = time()
+    res_list = [
+        op.predict("how to always round up to the next integer", "How to round up the result of integer division?", 30),
+        op.predict("How to play a sound (alert) in a java application?", "How can I play sound in Java?", 30),
+        op.predict("Debug exceptions in AWT queue thread", "How can I catch AWT thread exceptions in Java?", 30),
+        op.predict("JUnit 4 Expected Exception type",
+                   "How do you assert that a certain exception is thrown in JUnit 4 tests?", 30),
+        op.predict("Measure execution time for a Java method", "How do I time a method's execution in Java?", 30),
+        op.predict("Value from last inserted row in DB", "How to get a value from the last inserted row?", 30),
+        op.predict("Jaxb ignore the namespace on unmarshalling",
+                   "How to ignore namespace during unmarshalling XML document?", 30),
+        op.predict("How do you split a list into evenly sized chunks?",
+                   "How do I divide an ordered list of integers into evenly sized sublists?", 30)
+    ]
+    end_time = time()
+    print(end_time - start_time)
+    with open(str(PathUtil.output_RankSVM_model_dir() / "new_result_example.json"), "w") as f:
+        json.dump(res_list, f)
 
     # 根据8-2随机原则计算MRR分数，运行下面的代码的时候请将main函数下别的代码注释掉
-    op.get_score_for_random_8_2()
+    # op.get_score_for_random_8_2()
