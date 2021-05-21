@@ -216,7 +216,7 @@ class SVMOperation:
 if __name__ == "__main__":
     op = SVMOperation()
 
-    # 215到233行一起运行和236行分开运行（分开注释）
+    # 221到242行一起运行和245行分开运行（分开注释）
     # # 训练RankSVM模型
     op.train_rank_svm(model_path=str(PathUtil.output_RankSVM_model_dir() / "rank_svm.new.final.model"))
     # 测试用例

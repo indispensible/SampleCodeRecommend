@@ -61,7 +61,7 @@ project_root                           整个代码项目的根目录
   >>> python3 -m project.Model
 ```
 
-3. 推荐效果测试，会将测试用例结果保存到data/RankSVM_model/result_example.json文件下(注：project/RankSVM/Operation.py的215到233行一起运行和236行分开运行（分开注释）)
+3. 推荐效果测试，会将测试用例结果保存到data/RankSVM_model/result_example.json文件下(注：project/RankSVM/Operation.py的221到242行一起运行和245行分开运行（分开注释）)
 ```
   >>> python3 -m project.RankSVM.Operation
 ```
