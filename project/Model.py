@@ -57,7 +57,7 @@ class Model:
     def trained_word2vec_model(self, pre_trained_w2v_path=None, tuned_word_embedding_save_path=None):
         stop_words = stopwords.words('english')
         self.get_sentence_list()
-        corpus = [[item for item in sentence.split(" ") if item.lower() not in stop_words] for sentence, post_id in
+        corpus = [[item.lower() for item in sentence.split(" ") if item.lower() not in stop_words] for sentence, post_id in
                   self.sentence_list]
         print("开始训练word2vec")
         pre_trained_word2vec_model = Word2VecKeyedVectors.load_word2vec_format(pre_trained_w2v_path, binary=True)
@@ -84,8 +84,8 @@ if __name__ == "__main__":
     model = Model(sample_code_doc_path)
     model.get_sentence_list()
     model.train_TFIDF_model("v1")
-    W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
-                           str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
+    # W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
+    #                        str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
     pre_w2v_path = str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin")
     new_w2v_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
     model.trained_word2vec_model(pre_w2v_path, new_w2v_path)

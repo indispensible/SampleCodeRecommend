@@ -45,7 +45,7 @@ class W2VOperation:
 
     # 将一个文本转换成word2vec向量表示
     def text2vec(self, topic_words):
-        topic_text = " ".join(topic_words)
+        topic_text = " ".join(topic_words).lower()
 
         if len(topic_text) == 0:
             return np.zeros([300])
