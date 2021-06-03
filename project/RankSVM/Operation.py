@@ -195,21 +195,21 @@ class SVMOperation:
         print("前五包含答案百分比: " + str(rank_before_5 / len(sentence_list)))
         print("前十包含答案百分比: " + str(rank_before_10 / len(sentence_list)))
 
-    def get_score_for_random_8_2(self):
-        random = Random()
+    def get_score_for_8_2(self):
         sentence_list = pickle.load(open(str(PathUtil.output_RankSVM_model_dir() / "origin.sentence"), "rb+"))
         all_id_set = {i for i in range(0, len(sentence_list))}
         train_num = int(len(sentence_list) * 0.8)
         train_id_set = set()
+        num = 0
         while len(train_id_set) != train_num:
-            num = random.randint(0, len(sentence_list) - 1)
             if num not in train_id_set:
                 train_id_set.add(num)
+            num += 1
         test_id_set = all_id_set.difference(train_id_set)
         train_data_list = [sentence_list[index] for index in train_id_set]
         test_data_list = [[sentence_list[index]['sentence'], sentence_list[index]['positive_sentence_with_vote'][0]] for index in test_id_set]
-        self.train_rank_svm(train_data_list, model_path=str(PathUtil.output_RankSVM_model_dir() / "random_8_2_rank_svm.model"))
-        self.load(model_path=str(PathUtil.output_RankSVM_model_dir() / "random_8_2_rank_svm.model"))
+        self.train_rank_svm(train_data_list, model_path=str(PathUtil.output_RankSVM_model_dir() / "8_2_rank_svm.model"))
+        self.load(model_path=str(PathUtil.output_RankSVM_model_dir() / "8_2_rank_svm.model"))
         self.score(test_data_list)
 
 
@@ -242,4 +242,4 @@ if __name__ == "__main__":
     #     json.dump(res_list, f)
 
     # 根据8-2随机原则计算MRR分数，运行下面的代码的时候请将main函数下别的代码注释掉
-    op.get_score_for_random_8_2()
+    op.get_score_for_8_2()
