@@ -56,12 +56,17 @@ project_root                           整个代码项目的根目录
   >>> pip install -r requirements.txt
 ```
 
-2. 训练TFIDF模型以及增量训练Word2Vec模型
+2. Word2Vec的txt文件转换成bin文件
+```
+  >>> python3 -m project.Word2Vec.Operation
+```
+
+3. 训练TFIDF模型以及增量训练Word2Vec模型
 ```
   >>> python3 -m project.Model
 ```
 
-3. 推荐效果测试，会将测试用例结果保存到data/RankSVM_model/result_example.json文件下(注：project/RankSVM/Operation.py的221到242行一起运行和245行分开运行（分开注释）)
+4. 推荐效果测试，会将测试用例结果保存到data/RankSVM_model/result_example.json文件下(注：project/RankSVM/Operation.py的221到242行一起运行和245行分开运行（分开注释）)
 ```
   >>> python3 -m project.RankSVM.Operation
 ```

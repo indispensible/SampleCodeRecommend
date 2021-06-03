@@ -83,21 +83,21 @@ class W2VOperation:
 if __name__ == "__main__":
 
     # 得到word2vec模型的二进制文件
-    # W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
-    #                        str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
+    W2VOperation.txt_2_bin(str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.txt"),
+                           str(PathUtil.wiki_emb_path() / "300" / "enwiki_20180420_300d.bin"))
 
-    word2vec_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
-    operation = W2VOperation(word2vec_path)
-
-    # print(operation.text_semantic_sim("named entity recognition", "nature language processing"))
-    # print(operation.text_semantic_sim("named entity recognition", "computer vision"))
-
-    tmp_score_list = operation.get_word2vec_score_for_sentences('how to always round up to the next integer', [
-        'How to round up the result of integer division?',
-        'how to make Math.random round to a number',
-        'How to get ImageView with round edge and round vertices in android?',
-        'How do I convert the value of a TextView to integer',
-        'how to round of 3 numbers to 1?',
-        'How to round decimal numbers in Android'
-    ])
-    print(tmp_score_list)
+    # word2vec_path = str(PathUtil.wiki_emb_path() / "300" / "new_enwiki_with_title.bin")
+    # operation = W2VOperation(word2vec_path)
+    #
+    # # print(operation.text_semantic_sim("named entity recognition", "nature language processing"))
+    # # print(operation.text_semantic_sim("named entity recognition", "computer vision"))
+    #
+    # tmp_score_list = operation.get_word2vec_score_for_sentences('how to always round up to the next integer', [
+    #     'How to round up the result of integer division?',
+    #     'how to make Math.random round to a number',
+    #     'How to get ImageView with round edge and round vertices in android?',
+    #     'How do I convert the value of a TextView to integer',
+    #     'how to round of 3 numbers to 1?',
+    #     'How to round decimal numbers in Android'
+    # ])
+    # print(tmp_score_list)
