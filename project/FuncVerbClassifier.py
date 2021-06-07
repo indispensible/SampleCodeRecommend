@@ -27,3 +27,8 @@ class FuncVerbClassifier(FuncSentenceClassifier):
         except Exception as e:
             print(e, sentence)
             return 0, 0
+
+
+if __name__ == "__main__":
+    func = FuncVerbClassifier()
+    print(func.predict("How to round up the result of integer division?"))
